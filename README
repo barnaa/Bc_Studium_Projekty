@@ -14,3 +14,6 @@ and the rest of the projects was awarded with full points.
 
 Note: ISA project (DHCP monitoring) worked locally, but in the testing
 environment it didn't work for some reason (it worked for the project's
+extension, though, and it is the only reason I got any points for it) - this
+problem was present in about a half of the projects with this variant.
+Take caution with this solution of the project.
