@@ -1,0 +1,72 @@
+
+======================================
+==  Monitorovanie DHCP komunikácie  ==
+======================================
+
+Obsah:
+ 1. Obecný popis
+ 2. Princíp fungovania
+ 3. Príklad spustenia
+ 4. Rozšírenia
+ 5. Potrebné knižnice
+ 6. Odovzdávané súbory
+ 7. Iné
+
+
+1. Obecný popis
+-----------------
+Tento program je určený k zisťovaniu využitia sieťového prefixu (resp. sieťových
+prefixov) zariadeniami, ktorým prideľuje IP adresy DHCP server. Je to nástroj
+pre sieťových administrátorov, ktorým umožňuje zistiť, či by bolo možné zmeniť
+prefix siete, z ktorej sa prideľujú IP adresy. Predpokladá sa, že tento program
+bude spustený na stroji, na ktorom beží DHCP server vzhľadom na to, že je pot-
+rebné získavať DHCP pakety od klientov v sieti.
+
+2. Princíp fungovania
+-----------------------
+Pri monitorovaní využitia sieťových prefixov je nutné si ukladať informáce o
+klientoch, ktorým sú aktuálne pridelené IP adresy. Ukladať si informácie o za-
+riadení ma zmysel až keď mu server odošle DHCP ACK správu, ktorá mu dáva finálne
+potvrdenie že môže využívať priradenú IP adresu. Vzhľadom na to, že sa používané
+IP adresy ukladajú je ešte potrebné spracovávať DHCP Release správy, ktoré môžu
+byť odoslané klientami a teda uvoľňujú priradenú IP adresu.
+Skrátene princíp fungovania je ten, že pri odoslaní DHCP ACK správy sa skontro-
+luje či IP adresa zariadenia patrí do monitorovaných sietí, ak áno tak sa zazna-
+mená adresa aj s lease time a po vypršaní lease time (alebo pri DHCP Release) sa
+tento záznam odstráni. S pomocou týchto záznamov sa tvoria štatistiky využitia
+sieťových prefixov.
+Implementačný jazyk je C++.
+
+3. Príklad spustenia
+----------------------
+  ./dhcp-stats 147.229.181.0/24 147.229.0.0/16
+  ./dhcp-stats -r log.pcap 192.168.0.0/16
+Pri spustení programu bez argumentu -r môžu byť potrebné root práva pre prístup
+k sieťovým rozhraniam.
+
+4. Rozšírenia
+---------------
+V programe je implementované rozšírenie umožňujúce namiesto tvorenia štatistiky
+v reálnom čase ju tvoriť z .pcap súboru, v ktorom je nasnímaný sieťový prenos.
+Využiť sa dá argumentom "-r filename".
+
+5. Potrebné knižnice
+----------------------
+K skompilovaniu aplikácie sú potrebné nasledujúce knižnice:
+  - pcap
+  - ncurses
+V Makefile sa používa gcc pre kompiláciu, pričom je vyžadovaná podpora štandardu
+C++11.
+
+6. Odovzdávané súbory
+-----------------------
+  - dhcp-stats.cc
+  - dhcp-stats.1
+  - Makefile
+  - README
+
+7. Iné
+--------
+Pre dodatočné informácie si môžete prečítať dokumentáciu programu pomocou
+  man ./dhcp-stats.1
+Autorom je Andrej Barna (xbarna01), pre predmet ISA, rok 2016.

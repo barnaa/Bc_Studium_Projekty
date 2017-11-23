@@ -1,0 +1,48 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[left=2cm,text={17cm, 24cm},top=3cm]{geometry}
+\usepackage{times}
+\usepackage[czech]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{natbib}
+\usepackage{url}
+\DeclareUrlCommand\url{\def\UrlLeft{<}\def\UrlRight{>}\urlstyle{tt}}
+% ITY: Projekt 4, Andrej Barna (xbarna01), 2014/2015
+
+
+\providecommand{\uv}[1]{„#1“}
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\Huge
+\textsc{Vysoké učení technické v~Brně\\
+\huge Fakulta informačních technologií}\\
+\vspace{\stretch{0.382}}
+\LARGE Typografie a publikování\,--\,4. projekt\\
+\Huge Bibliografické citace
+\vspace{\stretch{0.618}}
+\end{center}
+\Large \today\hfill Andrej Barna
+\end{titlepage}
+
+\section*{Typografia}
+
+V~súčasnej dobe je často potrebné profesionálne vysádzať dokumenty. V~praxi sa využívajú zaužívané pravidlá pre jednotný vzhľad dokumentov, aby bol dokument príjemný na čítanie. Týtmo sa zaoberá typografia, ktorá je dlhodobo preberanou témou. Na tému typografie existuje viacero dokumentov, viď \citep{JBerry}, alebo \citep{Hausmann}. Niektorí sú dokonca tak zaujatí typografiou, že sa rozhodnú napísať na túto tému diplomovú prácu, viď \citep{JanciK}.
+
+Aby sa dali dokumenty presne vysádzať podľa požadovaného štýlu, je potrebné mať k~tomu vhodný editor. V~minulosti vznikol \TeX, ktorý vznikol ako reakcia rozhorčeného majiteľa kníhtlače, ktorého knihy neboli správne vysádzané. O~\TeX e sú taktiež viaceré pramene informácií, viď \citep{OlsakP} alebo \citep{BunkaR}, čo je diplomová práca o~systémoch \TeX\ a \LaTeX. \LaTeX je nástupca \TeX u, ktorý je jednoduchší na používanie. O~\LaTeX u bolo vydano viacero dokumentov, keďže už viacero rokov je zaužívaný ako nástroj pre profesionálne sádzanie dokumentov. Existujú ako knižné zdroje, viď \citep{GoosensM}, tak aj viacero webových stránok, ako napríklad \citep{SvambM}, \citep{TaraD}, alebo \citep{Peng}.
+
+%TypografiaCasopis\citep{TypografiaCasopis}
+\newpage
+\renewcommand{\refname}{Literatúra}
+\bibliographystyle{csplainnat}
+\bibliography{proj4b}
+\end{document}
+%Projekt č. 4
+%Vaším úkolem je vytvořit smysluplný konzistentní krátký (cca 20-30 vět) dokument o tématu z oblasti typografie (pokud vyčerpáte literaturu na téma typografie, můžete psát i o informatice, fyzice nebo matematice, ovšem dodržte minimální počet citovaných publikací jednotlivých typů), ve kterém budete citovat publikace následujících typů:
+%  2 monografie (alespoň jedna musí být cizojazyčná),
+%  3 elektronické dokumenty,
+%  1 seriálovou publikaci (časopis či sborník z konference),
+%  2 články v seriálové publikaci,
+%  2 kvalifikační práce (bakalářské, diplomové nebo disertační).
+%Seznam použité literatury na konci dokumentu vysázejte nástrojem BiBTeX a použijte takový styl, který nejvíce odpovídá české normě. Citujte dle pokynů uvedených na přednášce a v souladu s normou ČSN ISO 690. Přímá citace může být maximálně jedna, zbytek budou parafráze. Internetové (elektronické) dokumenty mohou být pouze tři, ostatní musí být tištěné. Na hodnocení bude mít vliv především způsob a přesnost citací, ale také způsob odkazování na literaturu v samotném textu. Na výsledné hodnocení budou mít ale také vliv případné pravopisné chyby a nedodržení obecných typografických zásad. S dokumentem odevzdejte také bib soubor a příslušný makefile. Kontrola bude opět na Merlinovi. Odevzdejte všechny použité soubory tak, aby šel projekt přelozit. Nepřeložitelné projekty budou hodnoceny 0 body. Jako úvodní stránku použijte třeba tu ze třetího projektu. Projekt zadává, konzultuje a hodnotí Jaroslav Rozman.

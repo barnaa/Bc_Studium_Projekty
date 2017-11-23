@@ -1,0 +1,63 @@
+~~~~~~~~~~
+| Klient |
+~~~~~~~~~~
+
+Umoznuje prenos suborov medzi klientom a serverom pouzitim protokolu IPKP, ktory
+pracuje nad protokolom TCP.
+
+Pouzitie:
+  U oboch moznosti pouzitia udava -h <hostname> nazov/adresu serveru a -p <port>
+  udava port welcome socketu serveru.
+  
+  1. nahranie suboru na server:
+      ./client -h <hostname> -p <port> -u <filename>
+      
+    Vstup: subor, ktory ma byt nahraty na server, dany polozkou <filename>.
+    Vystup: navratovy kod v zavislosti od toho, ci sa operacia podarila alebo
+            nie. V pripade neuspechu sa vypise na chybovy vystup hlasenie.
+    Kontrola: existencie a pristupu k vstupnemu suboru.
+    Obmedzenie: maximalna velkost suboru je dana kapacitou pamate RAM, popripade
+                dalsimi obmedzeniami danymi operacnym systemom.
+     
+                
+  2. stiahnutie suboru zo serveru:               
+      ./client -h <hostname> -p <port> -d <filename>
+      
+    Vstup: Nazov suboru, ktory ma byt stiahnuty zo serveru, dany polozkou
+           <filename>.
+    Vystup: Navratovy kod v zavislosti od toho, ci sa operacia podarila alebo
+            nie. V pripade uspechu je do priecinka, kde sa nachadza klient,
+            ulozeny stiahnuty subor. V pripade neuspechu sa vypise na chybovy
+            vystup hlasenie.
+    Kontrola: Moznosti zapisovat do vystupneho suboru.
+    Obmedzenie: Maximalna velkost suboru je dana kapacitou disku, popripade
+                dalsimi obmedzeniami danymi operacnym systemom.
+
+
+
+
+
+~~~~~~~~~~
+| Server |
+~~~~~~~~~~     
+
+Poskytuje konkurentny server urceny na prenos suborov pomocou protokolu IPKP,
+ktory pracuje nad protokolom TCP.
+
+Pouzitie:
+  ./server -p <port>
+  "-p <port>" udava cislo portu, na ktorom bude server nasluchat klientom
+  Vstup: ziadost od klienta, prijata na porte <port>.
+  Vystup: Ak klient ziada o stiahnutie suboru, tak mu je odoslany aj s hlavickou
+          obsahujucou zakladne informacie o subore. V pripade, ze klient ziadal
+          o nahranie suboru, sa odosle klientovi odpoved, ci moze nahravat
+          subor, po ktorej moze posielat subor bez opakovaneho posielania
+          hlavicky. V pripade neuspechu sa vypise na chybovy vystup hlasenie.
+  Kontrola: V pripade stahovania suboru klientom - ci existuje stahovany subor,
+            ci je pristupny, alebo ci je stahovany subor umiestneny v priecinku
+            serveru. V pripade nahravania suboru klientom sa kontroluje, ci je
+            mozne zapisat prijimany subor na disk.
+  Obmedzenie: Maximalna velkost prijimaneho suboru je dana kapacitou disku, 
+              popripade dalsimi obmedzeniami danymi operacnym systemom. 
+              Maximalna velkost odosielaneho suboru je dana kapacitou pamate
+              RAM.

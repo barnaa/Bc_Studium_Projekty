@@ -1,0 +1,6 @@
+Toto je ukazkovy subor pouzity na demonstraciu prenosu suborov medzi klientom a
+serverom.
+Pouziva sa najprv na preukazanie, ze je bezpecne stahovat a nahravat subory, ked
+su klient aj server ulozeni v tom istom priecinku.
+Nasledne je klient presunuty do priecinka clientFolder a stiahne do toho 
+priecinka tento subor.

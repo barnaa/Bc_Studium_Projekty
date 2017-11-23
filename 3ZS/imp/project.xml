@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <!-- Project description -->
+    <name>Interaktívne svetelné noviny na FITkite</name>
+    <author>Andrej Barna</author>
+    <authoremail>xbarna01@stud.fit.vutbr.cz</authoremail>
+    <revision>20161211</revision>
+    <description>Interaktívne svetelné noviny na FITkite riadené klávesnicou s využitím MSP430.</description>
+
+    <!-- MCU part -->
+    <mcu>
+        <include>mcu/libs/keyboard/package.xml</include>
+        <include>mcu/libs/lcd/package.xml</include>
+        <file>main.c</file>
+    </mcu>
+
+    <!-- FPGA part -->
+    <fpga>
+        <include>fpga/ctrls/keyboard/package.xml</include>
+        <include>fpga/ctrls/lcd/package.xml</include>
+        <file>top_level.vhd</file>
+    </fpga>
+
+</project>

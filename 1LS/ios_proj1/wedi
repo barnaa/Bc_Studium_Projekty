@@ -1,0 +1,138 @@
+#! /bin/sh
+
+editFile () {
+  if [ "$EDITOR" ]
+  then addRecord "$1"; $EDITOR "$1"
+  elif [ "$VISUAL" ]
+  then addRecord "$1"; $VISUAL "$1"
+  else echo "Chyba! Program pre editaciu suborov nie je nastaveny!" >&2; exit 1
+  fi
+  return $?
+}
+
+
+addRecord() {
+  echo "$(date "+%Y%m%d")" "$(readlink -f "$1")" >>"$WEDI_RC"
+}
+
+
+printIfExists () {
+  if [ ! "$dirlength" ]
+  then dirlength=$1
+  fi
+  while [ $# -ne 1 ]
+  do
+    if [ -f "$2" -a ! -d "$2" ]
+    then echo "$2" | cut -b"$dirlength"-
+    fi
+  shift
+  done
+  unset dirlength
+}
+
+
+printEditedFiles() {
+  x=${#1}
+  if [ $# = 1 ]
+   then printIfExists $(expr $x + 2) $(fgrep " $1" "$WEDI_RC" | cut -f2 -d' ')
+  else
+   if [ "$2" = 'a' ]
+    then printIfExists $(expr $x + 2) $(fgrep " $1" "$WEDI_RC" | awk -v cdate=$3 '$1>=cdate {$1=""; print $0}')
+   elif [ "$2" = 'b' ]
+    then printIfExists $(expr $x + 2) $(fgrep " $1" "$WEDI_RC" | awk -v cdate=$3 '$1<=cdate {$1=""; print $0}')
+   fi
+  fi
+  unset x
+}
+
+
+getLastEdited () {
+  printEditedFiles "$1" | tail -n 1 
+}
+
+
+getMostEdited () {
+  printEditedFiles "$1" | sort | uniq -c | sort -r | head -n 1 | awk '{print $2}'
+}
+
+
+getPath () {
+  readlink -f "$1"
+}
+
+
+getArgsDate () {
+  echo "$1" | cut -c1-4,6-7,9-10
+}
+
+
+################################################################################
+
+
+dir="$(getPath .)"
+file=""
+action="editFile"
+which="le"
+date=""
+
+
+if [ $# -gt 0 ]
+then
+ if [ "$1" = '-l' -o "$1" = '-L' ]
+  then action="printEditedFiles"; which=""; shift
+ elif [ "$1" = '-m' -o "$1" = '-M' ]
+  then which="me"; shift
+ elif [ "$1" = '-a' -o "$1" = '-A' -o "$1" = '-b' -o "$1" = '-B' ]
+  then
+   if [ $# -eq 1 ]
+    then echo "Chyba! Nebol zadany datum!" >&2; exit 1
+   fi
+   if [ "$1" = '-a' -o "$1" = '-A' ]
+    then action="printEditedFiles"; which="a"; shift; date=$(getArgsDate $1); shift
+   elif [ "$1" = '-b' -o "$1" = '-B' ]
+    then action="printEditedFiles"; which="b"; shift; date=$(getArgsDate $1); shift
+   fi
+ elif [ -d "$(getPath "$1")" ]
+  then dir="$(getPath "$1")"; od=1
+ else file="$(getPath "$1")"
+ fi
+fi
+
+
+if [ $# -ne 0 -a ! "$file" -a ! "$od" ]
+then
+ if [ -d "$(getPath "$1")" ]
+  then dir=$(getPath "$1")
+ else echo "Adresar nebol najdeny!" >&2 ; exit 1
+ fi
+fi
+ 
+
+if [ ! "$WEDI_RC" ]
+then
+  echo "Chyba! Nie je definovana premenna prostredia WEDI_RC, neviem kam ukladat data!" >&2; exit 1
+fi
+
+
+if [ $action != "editFile" ]
+then
+ if [ ! -r "$WEDI_RC" ]
+  then echo "Chyba! Subor WEDI_RC neexistuje, alebo je necitatelny!" >&2 ; exit 1
+ else
+  if [ $action = "printEditedFiles" ]
+   then $action "$dir" $which $date | sort | uniq
+  fi
+ fi
+else
+ if [ "$file" ]
+  then editFile "$file"
+ else
+  if [ "$(printEditedFiles "$dir")" = "" ]
+   then echo "Chyba! V danom priecinku este nebol upravovany ziaden subor!" >&2; exit 1
+  elif [ $which = "me" ]
+   then editFile "$dir"/"$(getMostEdited "$dir")"
+  else editFile "$dir"/"$(getLastEdited "$dir")"
+  fi
+ fi
+fi
+

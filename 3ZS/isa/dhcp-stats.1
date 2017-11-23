@@ -1,0 +1,40 @@
+.TH DHCP-STATS 1
+.SH NAME
+dhcp-stats \- monitor the usage of network(s) by devices
+.SH SYNOPSIS
+.B dhcp-stats
+[\fB\-h\fR]
+[\fB\-\-help\fR]
+[\fB\-r\fR \fIfile\fR] \"[\fB\-c\fR \fIint\fR]
+.IR \fIip-prefix\fR\ ...\"[\fIip-prefix\fR\ [...]\ ]
+.SH DESCRIPTION
+.B dhcp-stats
+monitors the DHCP communication, from which it creates statistics about the
+usage of networks given by arguments.
+.SH OPTIONS
+.TP
+.BR \-h ", " \-\-help
+Prints help message about the usage of this application.
+.TP
+.BR \-r\ \fIfile\fR
+Instead of reading from network interfaces, application reads packets from the
+PCAP file given as \fIfile\fR argument.
+.TP
+.BR \fIip-prefix\fR\ ...
+IP prefix of the network, which is supposed to be monitored. IP prefix is in the
+CIDR format (eg. 128.64.32.0/24), which is four octets in decimal format,
+separated by dots, followed by a slash and a number of bits of the network
+prefix. Three dots symbolize that more prefixes can be added.
+.SH EXAMPLES
+.TP
+ ./dhcp-stats 147.229.181.0/24 147.229.0.0/16
+Monitors on live interfaces networks with IP addresses given as arguments.
+.TP
+ ./dhcp-stats -r log.pcap 192.168.0.0/16
+Reads network traffic from the file log.pcap and monitors network with prefix
+192.168.0.0/16.
+.SH BUGS
+If the \fB-r\fR argument is not specified, the application must be run with root
+privileges, as it needs to read packets from network interfaces.
+In \fB-r\fR mode root privileges are not required, though user still needs to have
+read access to the PCAP file that's being read.
